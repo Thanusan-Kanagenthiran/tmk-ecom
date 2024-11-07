@@ -7,10 +7,10 @@ import java.util.List;
 
 @Data
 @Builder
-public class CategoryDetailsDto {
+public class BrandResponseDto {
     private Integer id;
     private String name;
-    private String description;
     private Integer totalProducts;
-    private List<ProductDto> products;
+    private List<CategoryResponseDto> categories;
+    private List<ProductResponseDto> products;
 }
