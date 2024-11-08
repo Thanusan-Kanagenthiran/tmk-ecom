@@ -1,5 +1,6 @@
 package com.tmk.ecom.product_service.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,6 +12,6 @@ public class BrandResponseDto {
     private Integer id;
     private String name;
     private Integer totalProducts;
-    private List<CategoryResponseDto> categories;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<ProductResponseDto> products;
 }

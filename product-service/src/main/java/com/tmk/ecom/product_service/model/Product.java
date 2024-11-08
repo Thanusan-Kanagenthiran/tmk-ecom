@@ -5,7 +5,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @NoArgsConstructor
@@ -21,7 +21,8 @@ public class Product extends BaseEntity {
     private Integer availableQuantity;
     private BigDecimal price;
 
-    @DateTimeFormat(pattern = "yy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(updatable = false)
     private Date releaseDate;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

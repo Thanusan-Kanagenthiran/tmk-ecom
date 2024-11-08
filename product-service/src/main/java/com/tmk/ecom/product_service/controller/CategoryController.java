@@ -2,10 +2,10 @@ package com.tmk.ecom.product_service.controller;
 
 import com.tmk.ecom.product_service.dto.CategoryRequestDto;
 import com.tmk.ecom.product_service.dto.CategoryResponseDto;
-import com.tmk.ecom.product_service.mapper.CategoryMapper;
-import com.tmk.ecom.product_service.model.Category;
+import com.tmk.ecom.product_service.dto.ResponseDto;
 import com.tmk.ecom.product_service.service.ICategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,53 +14,41 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
+@RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private ICategoryService categoryService;
+    private final ICategoryService iCategoryService;
 
     @PostMapping
-    public ResponseEntity<CategoryResponseDto> createCategory(@RequestBody CategoryRequestDto categoryRequestDto) {
-        Category category = categoryService.createCategory(categoryRequestDto);
-        CategoryResponseDto responseDto = CategoryMapper.toCategoryResponseDto(category);
-        return new ResponseEntity<>(responseDto, HttpStatus.CREATED);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponseDto> getCategoryById(@PathVariable Long id) {
-        Category category = categoryService.getCategoryById(id);
-        if (category == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        CategoryResponseDto responseDto = CategoryMapper.toCategoryResponseDtoWithProducts(category);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    public ResponseEntity<ResponseDto> createCategory(@Valid @RequestBody CategoryRequestDto category) {
+        iCategoryService.createCategory(category);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(new ResponseDto(HttpStatus.CREATED, "Category created successfully"));
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryResponseDto>> getAllCategories() {
-        List<Category> categories = categoryService.getAllCategories();
-        List<CategoryResponseDto> responseDtos = categories.stream()
-                .map(CategoryMapper::toCategoryResponseDto)
-                .toList();
-        return new ResponseEntity<>(responseDtos, HttpStatus.OK);
+        List<CategoryResponseDto> categories = iCategoryService.getAllCategories();
+        return ResponseEntity.ok(categories);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CategoryResponseDto> updateCategory(@PathVariable Long id, @RequestBody CategoryRequestDto categoryRequestDto) {
-        Category updatedCategory = categoryService.updateCategory(id, categoryRequestDto);
-        if (updatedCategory == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        CategoryResponseDto responseDto = CategoryMapper.toCategoryResponseDto(updatedCategory);
-        return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    @GetMapping("{id}")
+    public ResponseEntity<CategoryResponseDto> getCategoryWithProducts(@PathVariable Integer id) {
+        CategoryResponseDto categories = iCategoryService.getCategoryWithProducts(id);
+        return ResponseEntity.ok(categories);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
-        if (categoryService.deleteCategory(id)) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    @PutMapping("{id}")
+    public ResponseEntity<ResponseDto> updateCategory(@PathVariable Integer id, @Valid @RequestBody CategoryRequestDto category) {
+        iCategoryService.updateCategory(id, category);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseDto(HttpStatus.OK, "Category updated successfully"));
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<ResponseDto> deleteCategory(@PathVariable Integer id) {
+        iCategoryService.deleteCategory(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

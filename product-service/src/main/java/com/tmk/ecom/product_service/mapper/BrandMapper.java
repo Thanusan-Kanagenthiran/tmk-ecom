@@ -25,18 +25,8 @@ public class BrandMapper {
                 .id(brand.getId())
                 .name(brand.getName())
                 .totalProducts(brand.getProducts().size())
-                .products(brand.getProducts().stream().map(ProductMapper::toProductResponseDto).toList())
+                .products(brand.getProducts().stream().map(ProductMapper::toProductResponseDtoForBrand).toList())
                 .build();
     }
 
-    public static BrandResponseDto toBrandResponseDtoWithCategories(Brand brand) {
-        return BrandResponseDto.builder()
-                .id(brand.getId())
-                .name(brand.getName())
-                .totalProducts(brand.getProducts().size())
-                .categories(brand.getProducts().stream()
-                        .map(product -> CategoryMapper.toCategoryResponseDto(product.getCategory()))
-                        .toList())
-                .build();
-    }
 }

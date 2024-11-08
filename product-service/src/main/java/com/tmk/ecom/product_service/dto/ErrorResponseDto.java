@@ -2,14 +2,15 @@ package com.tmk.ecom.product_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.springframework.http.HttpStatus;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 public class ErrorResponseDto {
-
     private String apiPath;
-    private String message;
-    private String statusCode;
-    private String timestamp;
-
+    private HttpStatus errorCode;
+    private String errorMessage;
+    private LocalDateTime errorTime;
 }

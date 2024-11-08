@@ -5,7 +5,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Entity(name = "categories")
+@Entity
 @Setter
 @Getter
 @NoArgsConstructor

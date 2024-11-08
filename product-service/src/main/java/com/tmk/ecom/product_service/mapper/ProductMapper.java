@@ -6,8 +6,6 @@ import com.tmk.ecom.product_service.model.Brand;
 import com.tmk.ecom.product_service.model.Category;
 import com.tmk.ecom.product_service.model.Product;
 
-import java.util.List;
-
 public class ProductMapper {
 
     public static Product toProduct(
@@ -23,7 +21,7 @@ public class ProductMapper {
         return product;
     }
 
-    public static ProductResponseDto toProductResponseDto(Product product) {
+    public static ProductResponseDto toProductResponseDtoForBrand(Product product) {
         return ProductResponseDto.builder()
                 .id(product.getId())
                 .name(product.getName())
@@ -31,10 +29,25 @@ public class ProductMapper {
                 .availableQuantity(product.getAvailableQuantity())
                 .price(product.getPrice())
                 .releaseDate(product.getReleaseDate())
+                .categoryName(product.getCategory().getName())
+                .categoryId(product.getCategory().getId())
                 .build();
     }
 
-    public static ProductResponseDto toProductResponseDtoWithDetails(Product product) {
+    public static ProductResponseDto toProductResponseDtoForCategory(Product product) {
+        return ProductResponseDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .availableQuantity(product.getAvailableQuantity())
+                .price(product.getPrice())
+                .releaseDate(product.getReleaseDate())
+                .brandName(product.getBrand().getName())
+                .brandId(product.getBrand().getId())
+                .build();
+    }
+
+    public static ProductResponseDto toProductResponseDto(Product product) {
         return ProductResponseDto.builder()
                 .id(product.getId())
                 .name(product.getName())

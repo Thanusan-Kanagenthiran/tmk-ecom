@@ -25,7 +25,7 @@ public class CategoryMapper {
                 .id(category.getId())
                 .name(category.getName())
                 .totalProducts(category.getProducts().size())
-                .products(category.getProducts().stream().map(ProductMapper::toProductResponseDto).toList())
+                .products(category.getProducts().stream().map(ProductMapper::toProductResponseDtoForCategory).toList())
                 .build();
     }
 }

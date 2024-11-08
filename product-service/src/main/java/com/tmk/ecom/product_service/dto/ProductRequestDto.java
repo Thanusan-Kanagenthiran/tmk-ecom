@@ -23,8 +23,9 @@ public class ProductRequestDto {
     private Integer availableQuantity;
 
     // TODO:: Validate release date
-    @DateTimeFormat(pattern = "yy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Release date is required")
+    @PastOrPresent(message = "Release date cannot be in the future")
     private Date releaseDate;
 
     @NotNull(message = "Price is required")

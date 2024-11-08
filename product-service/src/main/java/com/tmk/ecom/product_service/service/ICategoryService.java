@@ -1,12 +1,20 @@
 package com.tmk.ecom.product_service.service;
 
 import com.tmk.ecom.product_service.dto.CategoryRequestDto;
-import com.tmk.ecom.product_service.model.Category;
-import org.springframework.stereotype.Service;
+import com.tmk.ecom.product_service.dto.CategoryResponseDto;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
-@Service
 public interface ICategoryService {
 
+    void createCategory(@Valid CategoryRequestDto category);
+
+    List<CategoryResponseDto> getAllCategories();
+
+    CategoryResponseDto getCategoryWithProducts(Integer id);
+
+    void updateCategory(Integer id, @Valid CategoryRequestDto category);
+
+    void deleteCategory(Integer id);
 }
